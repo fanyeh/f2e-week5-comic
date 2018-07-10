@@ -12,8 +12,8 @@ class Reader extends Component {
     return (
       <Page>
         <Header />
-        <ContentSlider slides={slides} />
-        {/* <PreviewSlider slides={slides} /> */}
+        {/* <ContentSlider slides={slides} /> */}
+        <PreviewSlider slides={slides} />
       </Page>
     );
   }

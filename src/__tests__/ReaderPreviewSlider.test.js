@@ -1,6 +1,6 @@
 import React from 'react';
 import PreviewSlider from '../App/Reader/PreviewSlider';
-import { render, cleanup, fireEvent, getByTestId } from 'react-testing-library';
+import { render, cleanup, fireEvent } from 'react-testing-library';
 
 const slides = Array.from(Array(12)).map((x, i) => i);
 
@@ -17,7 +17,7 @@ test('render visible slides', () => {
 
 test('move current slide to previous one on prev slide clicked', () => {
   const currentSlideIndex = 3;
-  const { getAllByTestId, getByTestId } = render(
+  const { getAllByTestId, getByTestId, queryByTestId } = render(
     <PreviewSlider slides={slides} currentSlideIndex={currentSlideIndex} />,
   );
   const visibleSlides = getAllByTestId('visible-slide');
@@ -30,14 +30,16 @@ test('move current slide to previous one on prev slide clicked', () => {
       expect(isSelected(visibleSlides[index])).toBeFalsy();
     }
   });
+  expect(queryByTestId('prev-chapter')).toBeNull();
 });
 
 test('move current slide to next one on next slide clicked', () => {
   const currentSlideIndex = 3;
-  const { getAllByTestId, getByTestId } = render(
+  const { getAllByTestId, getByTestId, queryByTestId } = render(
     <PreviewSlider slides={slides} currentSlideIndex={currentSlideIndex} />,
   );
   const visibleSlides = getAllByTestId('visible-slide');
+
   fireEvent.click(getByTestId('next-slide'));
   visibleSlides.forEach((slide, index) => {
     const slideIndex = slide.getAttribute('data-slideindex');
@@ -48,6 +50,7 @@ test('move current slide to next one on next slide clicked', () => {
       expect(isSelected(visibleSlides[index])).toBeFalsy();
     }
   });
+  expect(queryByTestId('prev-chapter')).toBeNull();
 });
 
 test('update visible slides when previous slide button clicked and current slide is first visible slide', () => {
@@ -78,6 +81,7 @@ test('disallow to go previous slide when current slide is first slide', () => {
   const visibleSlides = getAllByTestId('visible-slide');
   const newIndexes = visibleSlides.map(slide => slide.getAttribute('data-slideindex') * 1);
   expect(newIndexes).toEqual([0, 1, 2, 3, 4]);
+  expect(getByTestId('prev-chapter')).not.toBeNull();
 });
 
 test('disallow to go next slide when current slide is last slide', () => {
@@ -89,4 +93,10 @@ test('disallow to go next slide when current slide is last slide', () => {
   const visibleSlides = getAllByTestId('visible-slide');
   const newIndexes = visibleSlides.map(slide => slide.getAttribute('data-slideindex') * 1);
   expect(newIndexes).toEqual([7, 8, 9, 10, 11]);
+  expect(getByTestId('next-chapter')).not.toBeNull();
+});
+
+test('slide image', () => {
+  const { getAllByTestId } = render(<PreviewSlider slides={slides} />);
+  expect(getAllByTestId('slide-image')).not.toBeNull();
 });

@@ -13,31 +13,32 @@ class PreviewSlider extends Component {
 
   prevSlideHandler = () => {
     const { visibleSlideIndexes, currentSlideIndex } = this.state;
-    if (currentSlideIndex === 0) {
-      return;
+    if (currentSlideIndex !== 0) {
+      if (visibleSlideIndexes.indexOf(currentSlideIndex) === 0) {
+        this.setState({
+          visibleSlideIndexes: visibleSlideIndexes.map(slideIndex => slideIndex - 1),
+        });
+      }
+      this.setState({ currentSlideIndex: currentSlideIndex - 1 });
     }
-    if (visibleSlideIndexes.indexOf(currentSlideIndex) === 0) {
-      this.setState({
-        visibleSlideIndexes: visibleSlideIndexes.map(slideIndex => slideIndex - 1),
-      });
-    }
-    this.setState(({ currentSlideIndex }) => ({ currentSlideIndex: currentSlideIndex - 1 }));
   };
+
   nextSlideHandler = () => {
     const { visibleSlideIndexes, currentSlideIndex } = this.state;
-    if (currentSlideIndex === this.props.slides.length - 1) {
-      return;
+    const { length } = this.props.slides;
+    if (currentSlideIndex !== length - 1) {
+      if (visibleSlideIndexes.indexOf(currentSlideIndex) === 4) {
+        this.setState({
+          visibleSlideIndexes: visibleSlideIndexes.map(slideIndex => slideIndex + 1),
+        });
+      }
+      this.setState({ currentSlideIndex: currentSlideIndex + 1 });
     }
-    if (visibleSlideIndexes.indexOf(currentSlideIndex) === 4) {
-      this.setState({
-        visibleSlideIndexes: visibleSlideIndexes.map(slideIndex => slideIndex + 1),
-      });
-    }
-    this.setState(({ currentSlideIndex }) => ({ currentSlideIndex: currentSlideIndex + 1 }));
   };
 
   render() {
     const { currentSlideIndex, visibleSlideIndexes } = this.state;
+    const { slides } = this.props;
     return (
       <div>
         {visibleSlideIndexes.map(slideIndex => (
@@ -46,10 +47,14 @@ class PreviewSlider extends Component {
             data-slideindex={slideIndex}
             key={slideIndex}
             data-select={currentSlideIndex === slideIndex}
-          />
+          >
+            <img data-testid="slide-image" src={slides[slideIndex]} alt="" />
+          </div>
         ))}
         <div data-testid="prev-slide" onClick={this.prevSlideHandler} />
         <div data-testid="next-slide" onClick={this.nextSlideHandler} />
+        {currentSlideIndex === slides.length - 1 && <div data-testid="next-chapter" />}
+        {currentSlideIndex === 0 && <div data-testid="prev-chapter" />}
       </div>
     );
   }
