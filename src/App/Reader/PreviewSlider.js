@@ -90,15 +90,15 @@ const SlideContainer = Flex.extend`
   justify-content: center;
   position: relative;
   margin-bottom: 1rem;
+  align-items: center;
 `;
 
 const Slide = styled.div`
   width: 5rem;
   height: 7.5rem;
-  /* overflow: hidden; */
   margin: 0 0.625rem;
   position: relative;
-  box-sizing: content-box;
+  border: 4px solid rgba(0, 0, 0, 0.1);
   &[data-select='true'] {
     border: 4px solid black;
     &:before {
@@ -116,7 +116,7 @@ const Slide = styled.div`
 
     &:after {
       content: '';
-      width: 5.5rem;
+      width: 5rem;
       height: 1rem;
       position: absolute;
       left: -0.25rem;
@@ -139,10 +139,11 @@ const Control = Flex.extend`
 
 const Overlay = styled.div`
   width: 3.13rem;
-  height: 100%;
+  height: 7rem;
   background: rgba(0, 0, 0, 0.8);
   position: absolute;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
   ${props => (props.next ? 'right:0' : 'left:0')};
 `;
 
