@@ -6,13 +6,12 @@ import { Page } from '../../styles/layout';
 
 const slides = Array.from(Array(12)).map((x, i) => require(`../../assets/storyboard-${i + 1}.png`));
 
-// import PreviewSlider from './PreviewSlider';
 class Reader extends Component {
   render() {
     return (
       <Page>
         <Header />
-        {/* <ContentSlider slides={slides} /> */}
+        <ContentSlider slides={slides} />
         <PreviewSlider slides={slides} />
       </Page>
     );
