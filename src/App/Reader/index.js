@@ -3,8 +3,7 @@ import Header from './Header';
 import ContentSlider from './ContentSlider';
 import PreviewSlider from './PreviewSlider';
 import { Page } from '../../styles/layout';
-
-const slides = Array.from(Array(12)).map((x, i) => require(`../../assets/storyboard-${i + 1}.png`));
+import slides from '../../slides';
 
 class Reader extends Component {
   render() {

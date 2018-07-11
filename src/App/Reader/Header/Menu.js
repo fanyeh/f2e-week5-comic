@@ -66,6 +66,7 @@ const Heading = styled.h4`
 
 const Dropdown = styled.div`
   ${Layout};
+  z-index: 5;
   padding: 0.25rem 0;
   position: absolute;
   left: -2px;
@@ -73,6 +74,7 @@ const Dropdown = styled.div`
   transform: translateY(100%);
   width: 100%;
   text-align: center;
+  background: white;
 `;
 
 const DropdownItem = Heading.extend`
