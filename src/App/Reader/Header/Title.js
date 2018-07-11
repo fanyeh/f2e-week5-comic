@@ -23,4 +23,7 @@ export const StyledTitle = styled.h1`
   font-size: 1.25rem;
   color: #000000;
   line-height: 1.5rem;
+  & > i {
+    margin-left: 0.5rem;
+  }
 `;

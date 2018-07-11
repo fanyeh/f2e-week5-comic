@@ -29,4 +29,5 @@ export default Header;
 
 const StyledHeader = Flex.extend`
   align-items: center;
+  margin-bottom: 1.5rem;
 `;
