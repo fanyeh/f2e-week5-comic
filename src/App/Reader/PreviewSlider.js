@@ -10,13 +10,13 @@ class PreviewSlider extends Component {
   state = {
     currentSlideIndex: this.props.currentSlideIndex,
     prevPropsCurrentSlide: this.props.currentSlideIndex,
-    visibleSlideIndexes: Array.from(Array(5)).map((x, i) => i),
+    visibleSlideIndexes: Array.from(Array(7)).map((x, i) => i - 1),
   };
 
   prevSlideHandler = () => {
     const { visibleSlideIndexes, currentSlideIndex } = this.state;
     if (currentSlideIndex !== 0) {
-      if (visibleSlideIndexes.indexOf(currentSlideIndex) === 0) {
+      if (visibleSlideIndexes.indexOf(currentSlideIndex) === 1) {
         this.setState({
           visibleSlideIndexes: visibleSlideIndexes.map(slideIndex => slideIndex - 1),
         });
@@ -28,8 +28,8 @@ class PreviewSlider extends Component {
   nextSlideHandler = () => {
     const { visibleSlideIndexes, currentSlideIndex } = this.state;
     const { length } = this.props.slides;
-    if (currentSlideIndex !== length - 1) {
-      if (visibleSlideIndexes.indexOf(currentSlideIndex) === 4) {
+    if (currentSlideIndex < length - 1) {
+      if (visibleSlideIndexes.indexOf(currentSlideIndex) === 5) {
         this.setState({
           visibleSlideIndexes: visibleSlideIndexes.map(slideIndex => slideIndex + 1),
         });
@@ -87,16 +87,19 @@ class PreviewSlider extends Component {
 export default PreviewSlider;
 
 const SlideContainer = Flex.extend`
-  justify-content: center;
-  position: relative;
   margin-bottom: 1rem;
+  justify-content: space-between;
+  position: relative;
   align-items: center;
+  width: 42.49rem;
+  left: 50%;
+  transform: translateX(-50%);
+  clip-path: inset(-1rem 1.87rem -3rem 1.87rem);
 `;
 
 const Slide = styled.div`
   width: 5rem;
   height: 7.5rem;
-  margin: 0 0.625rem;
   position: relative;
   border: 4px solid rgba(0, 0, 0, 0.1);
   &[data-select='true'] {
@@ -138,13 +141,13 @@ const Control = Flex.extend`
 `;
 
 const Overlay = styled.div`
-  width: 3.13rem;
-  height: 7rem;
+  width: 3.14rem;
+  height: 7.5rem;
   background: rgba(0, 0, 0, 0.8);
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  ${props => (props.next ? 'right:0' : 'left:0')};
+  ${props => (props.next ? 'right:1.87rem' : 'left:1.87rem')};
 `;
 
 const ChapterButton = styled.div`
