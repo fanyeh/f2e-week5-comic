@@ -71,19 +71,20 @@ class PreviewSlider extends Component {
     return (
       <div>
         <SlideContainer>
-          {visibleSlideIndexes.map(slideIndex => (
+          {visibleSlideIndexes.map((slideIndex, index) => (
             <Slide
               data-testid="visible-slide"
               data-slideindex={slideIndex}
               key={slideIndex}
               data-select={currentSlideIndex === slideIndex}
+              title={index > 0 && index < 6 ? slideIndex + 1 : ''}
             >
               <Image data-testid="slide-image" src={slides[slideIndex]} alt="" />
             </Slide>
           ))}
           <Overlay next>
             {currentSlideIndex === slides.length - 1 && (
-              <ChapterButton data-testid="next-chapter">
+              <ChapterButton data-testid="next-chapter" title="NEXT CHAPTER">
                 <i className="fas fa-angle-double-right" />
               </ChapterButton>
             )}
@@ -91,7 +92,7 @@ class PreviewSlider extends Component {
 
           <Overlay prev>
             {currentSlideIndex === 0 && (
-              <ChapterButton data-testid="prev-chapter">
+              <ChapterButton data-testid="prev-chapter" title="PREV CHAPTER">
                 <i className="fas fa-angle-double-left" />
               </ChapterButton>
             )}
@@ -125,7 +126,24 @@ const SlideContainer = Flex.extend`
   width: 42.49rem;
   left: 50%;
   transform: translateX(-50%);
-  clip-path: inset(-1rem 1.87rem -3rem 1.87rem);
+  &:before {
+    content: '';
+    position: absolute;
+    width: 1.87rem;
+    height: 100%;
+    background: #f2f2f2;
+    left: 0;
+    z-index: 1;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    width: 1.87rem;
+    height: 100%;
+    background: #f2f2f2;
+    right: 0;
+    z-index: 1;
+  }
 `;
 
 const Slide = styled.div`
@@ -133,6 +151,19 @@ const Slide = styled.div`
   height: 7.5rem;
   position: relative;
   border: 4px solid rgba(0, 0, 0, 0.1);
+
+  &[data-select='false'] {
+    &:before {
+      content: attr(title);
+      font-weight: 700;
+      font-size: 0.8rem;
+      position: absolute;
+      top: -1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
   &[data-select='true'] {
     border: 4px solid black;
     &:before {
@@ -189,6 +220,31 @@ const ChapterButton = styled.div`
   & > i {
     font-size: 1.87rem;
     ${absCenter};
+  }
+
+  &:before {
+    content: attr(title);
+    font-size: 0.9rem;
+    padding: 0.75rem 0.5rem;
+    background: #50ff44;
+    position: absolute;
+    top: -4rem;
+    white-space: nowrap;
+    font-weight: 700;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 1rem solid transparent;
+    border-right: 1rem solid transparent;
+    border-top: 1rem solid #50ff44;
+    top: -1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
   }
 `;
 
