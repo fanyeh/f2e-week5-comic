@@ -13,31 +13,31 @@ class Home extends Component {
           <div>
             <Title>my hexschool</Title>
             <Content>
-              <Flex>
+              <ContentItem>
                 <SubHeadingSecondary>Genres</SubHeadingSecondary>
                 Fusce/vehicula/dolor
-              </Flex>
+              </ContentItem>
 
-              <Flex>
+              <ContentItem>
                 <SubHeadingSecondary>Author</SubHeadingSecondary>
                 Namae Shiranai
-              </Flex>
+              </ContentItem>
 
-              <Flex>
+              <ContentItem>
                 <SubHeadingSecondary>Status</SubHeadingSecondary>
                 Ongoing
-              </Flex>
+              </ContentItem>
 
-              <Flex>
+              <ContentItem>
                 <SubHeadingSecondary>Rate</SubHeadingSecondary>
                 <i className="fas fa-star" />
                 <i className="fas fa-star" />
                 <i className="fas fa-star" />
                 <i className="fas fa-star" />
                 <i className="far fa-star" />
-              </Flex>
+              </ContentItem>
               <div>
-                <SubHeadingSecondary>Summary</SubHeadingSecondary>
+                <SummaryHeading>Summary</SummaryHeading>
                 <Paragraph>
                   If your banker breaks, you snap; if your apothecary by mistake sends you poison in
                   your pills, you die.
@@ -69,11 +69,28 @@ const Image = styled.img`
 `;
 
 const Content = styled.div`
-  padding: 0 1.25rem;
+  padding-left: 1.25rem;
+`;
+
+const ContentItem = Flex.extend`
+  margin-bottom: 1rem;
+  align-items: center;
+  & > ${SubHeadingSecondary} {
+    width: 4.5rem;
+  }
+`;
+
+const SummaryHeading = SubHeadingSecondary.extend`
+  margin-bottom: 0.5rem;
+  & + ${Paragraph} {
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const Title = HeadingSecondary.extend`
   background: black;
   padding: 0.5rem 0;
+  padding-left: 1.5rem;
   text-transform: uppercase;
+  margin-bottom: 1rem;
 `;

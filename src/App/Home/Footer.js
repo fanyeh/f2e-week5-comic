@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { SubHeadingPrimary, SubHeadingSecondary } from '../../styles/typography';
-const chapters = ['chapter 1:the F2E challenge start!', 'chapter 2:todo list is going crazy!'];
+const chapters = ['chapter 1: the F2E challenge start!', 'chapter 2: todo list is going crazy!'];
 class Footer extends Component {
   render() {
     return (
