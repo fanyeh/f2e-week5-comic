@@ -36,13 +36,23 @@ class ContentSlider extends Component {
     const imgSrc = slides[currentSlideIndex];
     return (
       <StyledContentSlider>
-        <Button data-testid="prevPage" onClick={this.prevPageHandler} day={dayMode}>
+        <Button
+          data-testid="prevPage"
+          onClick={this.prevPageHandler}
+          day={dayMode}
+          disable={currentSlideIndex === 0}
+        >
           <i className="fas fa-chevron-left" />
         </Button>
         <div>
           <Image data-testid="slide-image" src={imgSrc} alt="" />
         </div>
-        <Button data-testid="nextPage" onClick={this.nextPageHandler} day={dayMode}>
+        <Button
+          data-testid="nextPage"
+          onClick={this.nextPageHandler}
+          day={dayMode}
+          disable={currentSlideIndex === slides.length - 1}
+        >
           <i className="fas fa-chevron-right" />
         </Button>
       </StyledContentSlider>
@@ -69,11 +79,7 @@ const Button = styled.div`
   padding-left: 2.13rem;
   cursor: pointer;
   &:hover {
-    background: black;
-  }
-
-  &:hover > i {
-    color: #50ff44;
+    background: ${props => (props.disable ? 'none' : props.day ? 'black' : '#50ff44')};
   }
 
   &:first-of-type {
@@ -84,6 +90,11 @@ const Button = styled.div`
     right: 0;
     transform: translate(100%, -50%);
   }
+
+  &:hover > i {
+    color: ${props => (props.disable ? 'gray' : props.day ? '#50ff44' : 'black')};
+  }
+
   & > i {
     font-size: 2.74rem;
     position: relative;
