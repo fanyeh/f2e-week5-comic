@@ -1,6 +1,6 @@
 # F2E Challenge Week 5 - Comic Reader
 
-## [DEMO](jffy-comic-reader.surge.sh)
+## [DEMO](http://jffy-comic-reader.surge.sh)
 
 ---
 
