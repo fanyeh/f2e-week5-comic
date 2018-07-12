@@ -23,9 +23,9 @@ class Reader extends Component {
 
   sliderProps = () => {
     return {
-      currentSlideIndex: this.state.currentSlideIndex,
       slideHandler: this.slideHandler,
       slides: slides,
+      ...this.state,
     };
   };
 

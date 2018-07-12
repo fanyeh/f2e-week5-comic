@@ -4,11 +4,11 @@ import Toggler from '../../../components/Toggler';
 import styled, { css } from 'styled-components';
 class Menu extends React.Component {
   render() {
-    const { items, headingIndex, clickHandler } = this.props;
+    const { items, headingIndex, clickHandler, dayMode } = this.props;
     return items.length > 0 ? (
       <Toggler>
         {toggler => (
-          <StyledMenu>
+          <StyledMenu dark={!dayMode}>
             <Heading data-testid="title" id={toggler.id} onClick={toggler.toggle}>
               {items[headingIndex]} <i className="fas fa-sort" />
             </Heading>
@@ -45,6 +45,7 @@ const Layout = css`
 `;
 
 const StyledMenu = styled.div`
+  background: ${props => (props.dark ? 'white' : 'none')};
   ${Layout};
   &:first-of-type {
     margin-left: 1.5rem;

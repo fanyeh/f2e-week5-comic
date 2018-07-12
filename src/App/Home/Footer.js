@@ -8,8 +8,11 @@ class Footer extends Component {
       <StyledFooter>
         <SubHeadingPrimary>all chapters</SubHeadingPrimary>
         <Chapters>
-          {chapters.map(chapter => (
-            <SubHeadingSecondary key={chapter}>{chapter}</SubHeadingSecondary>
+          {chapters.map((chapter, index) => (
+            <SubHeadingSecondary key={chapter}>
+              {chapter}
+              {index === chapters.length - 1 && <Status>New</Status>}
+            </SubHeadingSecondary>
           ))}
         </Chapters>
       </StyledFooter>

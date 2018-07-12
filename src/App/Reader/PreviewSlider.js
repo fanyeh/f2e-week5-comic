@@ -67,10 +67,10 @@ class PreviewSlider extends Component {
 
   render() {
     const { visibleSlideIndexes } = this.state;
-    const { slides, currentSlideIndex } = this.props;
+    const { slides, currentSlideIndex, dayMode } = this.props;
     return (
       <div>
-        <SlideContainer>
+        <SlideContainer day={dayMode}>
           {visibleSlideIndexes.map((slideIndex, index) => (
             <Slide
               data-testid="visible-slide"
@@ -78,6 +78,7 @@ class PreviewSlider extends Component {
               key={slideIndex}
               data-select={currentSlideIndex === slideIndex}
               title={index > 0 && index < 6 ? slideIndex + 1 : ''}
+              day={dayMode}
             >
               <Image data-testid="slide-image" src={slides[slideIndex]} alt="" />
             </Slide>
@@ -99,11 +100,11 @@ class PreviewSlider extends Component {
           </Overlay>
         </SlideContainer>
 
-        <Control>
-          <SlideButton data-testid="prev-slide" onClick={this.prevSlideHandler}>
+        <Control day={dayMode}>
+          <SlideButton data-testid="prev-slide" onClick={this.prevSlideHandler} day={dayMode}>
             <i className="fas fa-caret-left" />
           </SlideButton>
-          <SlideButton data-testid="next-slide" onClick={this.nextSlideHandler}>
+          <SlideButton data-testid="next-slide" onClick={this.nextSlideHandler} day={dayMode}>
             <i className="fas fa-caret-right" />
           </SlideButton>
         </Control>
@@ -131,7 +132,7 @@ const SlideContainer = Flex.extend`
     position: absolute;
     width: 1.87rem;
     height: 100%;
-    background: #f2f2f2;
+    background: ${props => (props.day ? '#f2f2f2' : 'black')};
     left: 0;
     z-index: 1;
   }
@@ -140,7 +141,7 @@ const SlideContainer = Flex.extend`
     position: absolute;
     width: 1.87rem;
     height: 100%;
-    background: #f2f2f2;
+    background: ${props => (props.day ? '#f2f2f2' : 'black')};
     right: 0;
     z-index: 1;
   }
@@ -161,18 +162,21 @@ const Slide = styled.div`
       top: -1.25rem;
       left: 50%;
       transform: translateX(-50%);
+      color: ${props => (props.day ? 'black' : 'white')};
     }
   }
 
   &[data-select='true'] {
     border: 4px solid black;
+    border-color: ${props => (props.day ? 'black' : '#50ff44')};
     &:before {
       content: '';
       width: 0;
       height: 0;
       border-left: 1rem solid transparent;
       border-right: 1rem solid transparent;
-      border-bottom: 1rem solid black;
+      border-bottom: 1rem solid;
+      border-bottom-color: ${props => (props.day ? 'black' : '#50FF44')};
       position: absolute;
       top: -1rem;
       left: 50%;
@@ -186,20 +190,23 @@ const Slide = styled.div`
       position: absolute;
       left: -0.25rem;
       bottom: -2.4rem;
-      background: black;
+      background: ${props => (props.day ? 'black' : 'white')};
     }
   }
 `;
 
 const Image = styled.img`
   width: 100%;
+  height: 100%;
 `;
 
 const Control = Flex.extend`
   justify-content: space-between;
   height: 1.25rem;
-  border-top: 4px solid black;
-  border-bottom: 4px solid black;
+  border-top: 4px solid;
+  border-bottom: 4px solid;
+  border-color: ${props => (props.day ? 'black' : 'white')};
+  background: ${props => (props.day ? 'none' : 'black')};
 `;
 
 const Overlay = styled.div`
@@ -249,8 +256,8 @@ const ChapterButton = styled.div`
 `;
 
 const SlideButton = styled.div`
-  background: black;
-  color: white;
+  color: ${props => (props.day ? 'white' : 'black')};
+  background: ${props => (props.day ? 'black' : 'white')};
   width: 3.13rem;
   position: relative;
   & > i {

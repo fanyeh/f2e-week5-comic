@@ -3,8 +3,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 const Mode = ({ dayMode, switchHandler }) => {
+  console.log(dayMode);
   return (
-    <StyledMode>
+    <StyledMode day={dayMode}>
       <i data-testid="mode-day" className={classNames('fa-sun', dayMode ? 'fas' : 'far')} />
       <Switch data-testid="mode-switch" onClick={switchHandler} day={dayMode} />
       <i data-testid="mode-night" className={classNames('fa-moon', dayMode ? 'far' : 'fas')} />
@@ -29,6 +30,7 @@ export const StyledMode = styled.div`
   align-items: center;
   margin-left: auto;
   & > i {
+    color: ${props => (props.day ? 'black' : 'white')};
     font-size: 1.25rem;
   }
 `;
@@ -36,7 +38,9 @@ export const StyledMode = styled.div`
 const Switch = styled.div`
   width: 3rem;
   height: 1.5rem;
-  border: 2px solid black;
+  border: 2px solid;
+  border-color: ${props => (props.day ? 'black' : 'white')};
+  background: ${props => (props.day ? 'none' : 'white')};
   box-sizing: border-box;
   position: relative;
   margin: 0 0.5rem;

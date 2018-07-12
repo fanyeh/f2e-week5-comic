@@ -16,11 +16,13 @@ const Header = () => {
             items={['Chapter 1', 'Chapter 2']}
             headingIndex={value.currentChapterIndex}
             clickHandler={value.chapterHandler}
+            dark={value.dayMode}
           />
           <Menu
             items={slides.map((slide, index) => `Page${index + 1}`)}
             headingIndex={value.currentSlideIndex}
             clickHandler={value.slideHandler}
+            dark={value.dayMode}
           />
           <Mode switchHandler={value.modeHandler} dayMode={value.dayMode} />
         </StyledHeader>

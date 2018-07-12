@@ -32,17 +32,17 @@ class ContentSlider extends Component {
   };
 
   render() {
-    const { slides, currentSlideIndex } = this.props;
+    const { slides, currentSlideIndex, dayMode } = this.props;
     const imgSrc = slides[currentSlideIndex];
     return (
       <StyledContentSlider>
-        <Button data-testid="prevPage" onClick={this.prevPageHandler}>
+        <Button data-testid="prevPage" onClick={this.prevPageHandler} day={dayMode}>
           <i className="fas fa-chevron-left" />
         </Button>
         <div>
           <Image data-testid="slide-image" src={imgSrc} alt="" />
         </div>
-        <Button data-testid="nextPage" onClick={this.nextPageHandler}>
+        <Button data-testid="nextPage" onClick={this.nextPageHandler} day={dayMode}>
           <i className="fas fa-chevron-right" />
         </Button>
       </StyledContentSlider>
@@ -89,5 +89,6 @@ const Button = styled.div`
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+    color: ${props => (props.day ? 'black' : 'white')};
   }
 `;

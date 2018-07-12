@@ -7,8 +7,8 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        {/* <Home /> */}
-        <Reader />
+        <Home />
+        {/* <Reader /> */}
       </div>
     );
   }
