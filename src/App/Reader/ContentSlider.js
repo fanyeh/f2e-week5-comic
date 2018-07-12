@@ -13,35 +13,27 @@ class ContentSlider extends Component {
     currentSlideIndex: PropTypes.number,
   };
 
-  state = {
-    currentSlideIndex: this.props.currentSlideIndex,
-    prevPropsSlideIndex: this.props.currentSlideIndex,
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.currentSlideIndex !== state.prevPropsSlideIndex) {
-      return {
-        currentSlideIndex: props.currentSlideIndex,
-      };
-    }
-    return null;
-  }
-
   prevPageHandler = () => {
-    const { currentSlideIndex } = this.state;
+    const { currentSlideIndex, slideHandler } = this.props;
+    let newSlideIndex = currentSlideIndex;
     if (currentSlideIndex > 0) {
-      this.setState({ currentSlideIndex: currentSlideIndex - 1 });
+      newSlideIndex--;
     }
+    slideHandler(newSlideIndex);
   };
+
   nextPageHandler = () => {
-    const { currentSlideIndex } = this.state;
-    if (currentSlideIndex < this.props.slides.length - 1) {
-      this.setState({ currentSlideIndex: currentSlideIndex + 1 });
+    const { currentSlideIndex, slides, slideHandler } = this.props;
+    let newSlideIndex = currentSlideIndex;
+    if (currentSlideIndex < slides.length - 1) {
+      newSlideIndex++;
     }
+    slideHandler(newSlideIndex);
   };
 
   render() {
-    const imgSrc = this.props.slides[this.state.currentSlideIndex];
+    const { slides, currentSlideIndex } = this.props;
+    const imgSrc = slides[currentSlideIndex];
     return (
       <StyledContentSlider>
         <Button data-testid="prevPage" onClick={this.prevPageHandler}>

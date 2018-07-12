@@ -3,29 +3,22 @@ import PropTypes from 'prop-types';
 import Toggler from '../../../components/Toggler';
 import styled, { css } from 'styled-components';
 class Menu extends React.Component {
-  state = { title: this.props.items[0] };
-
-  clickHandler = item => {
-    this.setState({ title: item });
-  };
-
   render() {
-    const { items } = this.props;
-    const { title } = this.state;
+    const { items, headingIndex, clickHandler } = this.props;
     return items.length > 0 ? (
       <Toggler>
         {toggler => (
           <StyledMenu>
             <Heading data-testid="title" id={toggler.id} onClick={toggler.toggle}>
-              {title} <i className="fas fa-sort" />
+              {items[headingIndex]} <i className="fas fa-sort" />
             </Heading>
             {toggler.on && (
               <Dropdown data-testid="dropdown">
-                {items.map(item => (
+                {items.map((item, index) => (
                   <DropdownItem
                     key={item}
                     data-testid="dropdown-item"
-                    onClick={() => this.clickHandler(item)}
+                    onClick={() => clickHandler(index)}
                   >
                     {item}
                   </DropdownItem>

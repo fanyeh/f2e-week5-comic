@@ -3,44 +3,71 @@ import styled from 'styled-components';
 import { Flex } from '../../styles/layout';
 import { absCenter } from '../../styles/position';
 class PreviewSlider extends Component {
-  static defaultProps = {
-    currentSlideIndex: 0,
+  constructor(props) {
+    super(props);
+    this.state = { visibleSlideIndexes: this.getVisibleSlideIndexes() };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { currentSlideIndex } = this.props;
+    if (this.state.visibleSlideIndexes.indexOf(currentSlideIndex) === -1) {
+      this.setState({
+        visibleSlideIndexes: this.getVisibleSlideIndexes(),
+      });
+    } else {
+      const { visibleSlideIndexes } = this.state;
+      const index = visibleSlideIndexes.indexOf(prevProps.currentSlideIndex);
+      if (currentSlideIndex > prevProps.currentSlideIndex && index === 5) {
+        // Next
+        this.updateVisibleSlideIndexes(1);
+      } else if (currentSlideIndex < prevProps.currentSlideIndex && index === 1) {
+        // Prev
+        this.updateVisibleSlideIndexes(-1);
+      }
+    }
+  }
+
+  getVisibleSlideIndexes = () => {
+    const { slides, currentSlideIndex } = this.props;
+    if (currentSlideIndex <= slides.length - 5) {
+      return Array.from(Array(7)).map((x, i) => i - 1 + currentSlideIndex);
+    }
+    return Array.from(Array(7)).map(
+      (x, i) => i - ((currentSlideIndex % 7) + 1) + currentSlideIndex,
+    );
   };
 
-  state = {
-    currentSlideIndex: this.props.currentSlideIndex,
-    prevPropsCurrentSlide: this.props.currentSlideIndex,
-    visibleSlideIndexes: Array.from(Array(7)).map((x, i) => i - 1),
+  updateVisibleSlideIndexes = offset => {
+    this.setState({
+      visibleSlideIndexes: this.state.visibleSlideIndexes.map(slideIndex => slideIndex + offset),
+    });
   };
 
   prevSlideHandler = () => {
-    const { visibleSlideIndexes, currentSlideIndex } = this.state;
+    const { visibleSlideIndexes } = this.state;
+    const { currentSlideIndex, slideHandler } = this.props;
     if (currentSlideIndex !== 0) {
       if (visibleSlideIndexes.indexOf(currentSlideIndex) === 1) {
-        this.setState({
-          visibleSlideIndexes: visibleSlideIndexes.map(slideIndex => slideIndex - 1),
-        });
+        this.updateVisibleSlideIndexes(1);
       }
-      this.setState({ currentSlideIndex: currentSlideIndex - 1 });
+      slideHandler(currentSlideIndex - 1);
     }
   };
 
   nextSlideHandler = () => {
-    const { visibleSlideIndexes, currentSlideIndex } = this.state;
-    const { length } = this.props.slides;
-    if (currentSlideIndex < length - 1) {
+    const { visibleSlideIndexes } = this.state;
+    const { currentSlideIndex, slideHandler, slides } = this.props;
+    if (currentSlideIndex < slides.length - 1) {
       if (visibleSlideIndexes.indexOf(currentSlideIndex) === 5) {
-        this.setState({
-          visibleSlideIndexes: visibleSlideIndexes.map(slideIndex => slideIndex + 1),
-        });
+        this.updateVisibleSlideIndexes(-1);
       }
-      this.setState({ currentSlideIndex: currentSlideIndex + 1 });
+      slideHandler(currentSlideIndex + 1);
     }
   };
 
   render() {
-    const { currentSlideIndex, visibleSlideIndexes } = this.state;
-    const { slides } = this.props;
+    const { visibleSlideIndexes } = this.state;
+    const { slides, currentSlideIndex } = this.props;
     return (
       <div>
         <SlideContainer>
@@ -83,6 +110,10 @@ class PreviewSlider extends Component {
     );
   }
 }
+
+PreviewSlider.defaultProps = {
+  currentSlideIndex: 0,
+};
 
 export default PreviewSlider;
 
